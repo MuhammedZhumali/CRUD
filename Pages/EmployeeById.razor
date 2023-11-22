@@ -1,0 +1,33 @@
+﻿@page "/EmployeeById/{CurrentId}"
+@using Aktobe.Data
+@inject EmployeeService objEmpService
+@inject NavigationManager NavigationManager
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Employee Information</h3>
+                    <ul class="list-group list-group-flush" style="font-size: 25px">
+                        <li class="list-group-item"><strong>Name:</strong> @objEmp.Name</li>
+                        <li class="list-group-item"><strong>Gender:</strong> @objEmp.Gender</li>
+                        <li class="list-group-item"><strong>Country:</strong> @objEmp.Country</li>
+                        <li class="list-group-item"><strong>City:</strong> @objEmp.City</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string CurrentID { get; set; }
+    EmployeeInfo objEmp = new EmployeeInfo();
+
+    protected override async Task OnInitializedAsync()
+    {
+        objEmp = await Task.Run(() => objEmpService.GetEmployeeById(Convert.ToInt32(CurrentID)));
+    }
+}
